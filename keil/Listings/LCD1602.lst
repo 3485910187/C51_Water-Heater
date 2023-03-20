@@ -1,0 +1,72 @@
+C51 COMPILER V9.60.7.0   LCD1602                                                           03/20/2023 21:02:38 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE LCD1602
+OBJECT MODULE PLACED IN .\Objects\LCD1602.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE LCD1602.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\L
+                    -CD1602.lst) TABS(2) OBJECT(.\Objects\LCD1602.obj)
+
+line level    source
+
+   1          #include"LCD1602.h"
+   2          
+   3          void writecom(char com)
+   4          {
+   5   1        RS=0;
+   6   1        RW=0;
+   7   1        E=0;
+   8   1        lcddata=com;
+   9   1        DelayMs(5);
+  10   1        E=1;
+  11   1        E=0;
+  12   1      } 
+  13          
+  14          void writedat(char dat)
+  15          {
+  16   1        RS=1;
+  17   1        RW=0;
+  18   1        E=0;
+  19   1        lcddata=dat;
+  20   1        DelayMs(5);
+  21   1        E=1;
+  22   1        E=0;
+  23   1      } 
+  24          
+  25          void LcdInit()
+  26          {
+  27   1        writecom(0x38); //设置16x2显示，5x7点阵，8位数据接口
+  28   1        writecom(0x0c); //设置开显示，不显示光标
+  29   1        writecom(0x06); //写一个字符后地址加一
+  30   1        writecom(0x01); //显示清零，数据指针清零
+  31   1      }
+  32          
+  33          void display(char x,char y,char *strdat)
+  34          {
+  35   1          char addr;
+  36   1      
+  37   1          if(x == 0)
+  38   1              addr = 0x00 + y;
+  39   1          else
+  40   1              addr = 0x40 + y;
+  41   1          writecom(addr | 0x80);  // 设置显示起始地址 x为行，y为列
+  42   1          while(*strdat != '\0')
+  43   1          {
+  44   2              writedat(*strdat++);      // 写入数据并移动指针
+  45   2          }
+  46   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    117    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       4
+C51 COMPILER V9.60.7.0   LCD1602                                                           03/20/2023 21:02:38 PAGE 2   
+
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

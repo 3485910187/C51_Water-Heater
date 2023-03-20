@@ -1,0 +1,6 @@
+".\Objects\main.obj",
+".\Objects\18B20.obj",
+".\Objects\delay.obj",
+".\Objects\LCD1602.obj" 
+TO ".\Objects\Template" 
+PRINT(".\Listings\Template.m51")
